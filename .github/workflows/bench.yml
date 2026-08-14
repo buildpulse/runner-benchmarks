@@ -1,0 +1,63 @@
+name: bench
+on:
+  workflow_dispatch:
+    inputs:
+      note:
+        description: batch label
+        required: false
+
+permissions:
+  contents: read
+
+jobs:
+  node-build:
+    strategy:
+      fail-fast: false
+      matrix:
+        runner: [ubuntu-latest, bp-ubuntu-latest-x64-4x]
+    runs-on: ${{ matrix.runner }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Clone vuejs/core (pinned)
+        run: git clone --depth 1 --branch v3.5.13 https://github.com/vuejs/core vue
+      - name: Install
+        working-directory: vue
+        run: corepack enable && pnpm install --frozen-lockfile
+      - name: Build
+        working-directory: vue
+        run: pnpm build
+      - name: Unit tests
+        working-directory: vue
+        run: pnpm test-unit
+
+  go-build:
+    strategy:
+      fail-fast: false
+      matrix:
+        runner: [ubuntu-latest, bp-ubuntu-latest-x64-4x]
+    runs-on: ${{ matrix.runner }}
+    steps:
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.23"
+      - name: Clone hugo (pinned)
+        run: git clone --depth 1 --branch v0.139.3 https://github.com/gohugoio/hugo
+      - name: Compile
+        working-directory: hugo
+        run: go build ./...
+
+  docker-build:
+    strategy:
+      fail-fast: false
+      matrix:
+        runner: [ubuntu-latest, bp-ubuntu-latest-x64-4x]
+    runs-on: ${{ matrix.runner }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Clone vuejs/core (pinned)
+        run: git clone --depth 1 --branch v3.5.13 https://github.com/vuejs/core vue
+      - name: Build image (no cache)
+        run: docker build --no-cache -t bench:local .
