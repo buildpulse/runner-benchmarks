@@ -11,7 +11,7 @@ workloads. Every number we publish links to a run in this repo's Actions tab.
 - **Real workloads, pinned versions** (no synthetic loops):
   - `node-build`: vuejs/core at a pinned tag — install, build, unit tests
   - `go-build`: gohugoio/hugo at a pinned tag — full compile
-  - `docker-build`: multi-stage image build of the pinned vue tree, no cache
+  - `docker-build`: hugo's own multi-stage Dockerfile at the pinned tag, no cache
 - **Queue time** is measured from the GitHub API (`created_at` → `started_at` per job),
   not self-reported.
 - **Medians over repeated runs.** Single runs lie; we dispatch batches and report

@@ -56,8 +56,8 @@ jobs:
         runner: [ubuntu-latest, bp-ubuntu-latest-x64-4x]
     runs-on: ${{ matrix.runner }}
     steps:
-      - uses: actions/checkout@v4
-      - name: Clone vuejs/core (pinned)
-        run: git clone --depth 1 --branch v3.5.13 https://github.com/vuejs/core vue
-      - name: Build image (no cache)
+      - name: Clone hugo (pinned)
+        run: git clone --depth 1 --branch v0.139.3 https://github.com/gohugoio/hugo
+      - name: Build hugo's own image (no cache)
+        working-directory: hugo
         run: docker build --no-cache -t bench:local .
