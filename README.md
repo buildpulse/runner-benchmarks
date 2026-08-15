@@ -17,4 +17,11 @@ workloads. Every number we publish links to a run in this repo's Actions tab.
 - **Medians over repeated runs.** Single runs lie; we dispatch batches and report
   median and p95. The harvest script is in `scripts/`.
 
+- **Hardware receipts** (`hardware.yml`): sysbench CPU/memory and fio disk numbers
+  from the exact machines the workloads run on, same commands both sides.
+- **Cache, cold vs warm** (`docker-cache.yml`): the warm build runs on a FRESH
+  machine, so the speedup is the cache infrastructure, not a lingering daemon.
+  GitHub gets its own recommended remote cache (buildx `gha` backend, run-scoped);
+  BuildPulse uses the docker-builder pool's persistent layer cache on local NVMe.
+
 Anyone can fork this and reproduce. If you get different numbers, open an issue.

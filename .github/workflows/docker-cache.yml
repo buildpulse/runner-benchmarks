@@ -1,0 +1,80 @@
+name: docker-cache
+# Cold vs warm docker builds, the way real CI experiences them: the warm run
+# happens on a FRESH machine (separate job), so any speedup comes from the
+# cache infrastructure, not a still-running local daemon.
+#
+# GitHub side: buildx with the `gha` cache backend (GitHub's own recommended
+# remote cache), scoped to this run id so the cold job is genuinely cold.
+# BuildPulse side: the docker-builder pool's persistent per-tenant layer
+# cache on local NVMe; cold forces a full rebuild with --no-cache, warm is a
+# plain rebuild that hits the layers the cold job left behind.
+#
+# Workload: hugo's own multi-stage Dockerfile at the pinned tag, same as bench.yml.
+on:
+  workflow_dispatch:
+    inputs:
+      note:
+        description: batch label
+        required: false
+
+permissions:
+  contents: read
+
+jobs:
+  gh-cold:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone hugo (pinned)
+        run: git clone --depth 1 --branch v0.139.3 https://github.com/gohugoio/hugo
+      - uses: docker/setup-buildx-action@v3
+      - name: Build (cold)
+        uses: docker/build-push-action@v6
+        with:
+          context: ./hugo
+          push: false
+          tags: bench:cold
+          cache-from: type=gha,scope=bench-${{ github.run_id }}
+          cache-to: type=gha,scope=bench-${{ github.run_id }},mode=max
+
+  gh-warm:
+    needs: gh-cold
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone hugo (pinned)
+        run: git clone --depth 1 --branch v0.139.3 https://github.com/gohugoio/hugo
+      - uses: docker/setup-buildx-action@v3
+      - name: Build (warm, fresh machine, cache over network)
+        uses: docker/build-push-action@v6
+        with:
+          context: ./hugo
+          push: false
+          tags: bench:warm
+          cache-from: type=gha,scope=bench-${{ github.run_id }}
+
+  bp-cold:
+    runs-on: bp-docker-builder-x64-4x
+    steps:
+      - name: Clone hugo (pinned)
+        run: git clone --depth 1 --branch v0.139.3 https://github.com/gohugoio/hugo
+      - uses: buildpulse/setup-docker-builder@v1
+      - name: Build (cold, --no-cache full rebuild)
+        uses: docker/build-push-action@v6
+        with:
+          context: ./hugo
+          push: false
+          tags: bench:cold
+          no-cache: true
+
+  bp-warm:
+    needs: bp-cold
+    runs-on: bp-docker-builder-x64-4x
+    steps:
+      - name: Clone hugo (pinned)
+        run: git clone --depth 1 --branch v0.139.3 https://github.com/gohugoio/hugo
+      - uses: buildpulse/setup-docker-builder@v1
+      - name: Build (warm, fresh runner, persistent local cache)
+        uses: docker/build-push-action@v6
+        with:
+          context: ./hugo
+          push: false
+          tags: bench:warm

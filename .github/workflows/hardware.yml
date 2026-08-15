@@ -1,0 +1,42 @@
+name: hardware
+# Hardware receipts: raw CPU and disk numbers behind the workload results.
+# sysbench for CPU/memory, fio for the disk the build actually runs on.
+# Same commands on both runners; read the numbers straight from the logs.
+on:
+  workflow_dispatch:
+    inputs:
+      note:
+        description: batch label
+        required: false
+
+permissions:
+  contents: read
+
+jobs:
+  hardware:
+    strategy:
+      fail-fast: false
+      matrix:
+        runner: [ubuntu-latest, bp-ubuntu-latest-x64-4x]
+    runs-on: ${{ matrix.runner }}
+    steps:
+      - name: Install sysbench + fio
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq sysbench fio
+      - name: CPU model
+        run: lscpu | grep -E 'Model name|^CPU\(s\)|MHz' || true
+      - name: sysbench cpu (all cores, 10s)
+        run: sysbench cpu --threads="$(nproc)" --time=10 run
+      - name: sysbench memory
+        run: sysbench memory --threads="$(nproc)" --time=10 run
+      - name: fio sequential write 1G (build scratch dir)
+        run: |
+          fio --name=seqwrite --directory=. --size=1G --bs=1M --rw=write \
+              --ioengine=libaio --direct=1 --numjobs=1 --time_based=0 --group_reporting
+      - name: fio random read 4k
+        run: |
+          fio --name=randread --directory=. --size=1G --bs=4k --rw=randread \
+              --ioengine=libaio --direct=1 --iodepth=32 --runtime=15 --time_based \
+              --group_reporting
+      - name: Cleanup fio files
+        if: always()
+        run: rm -f seqwrite* randread* || true
