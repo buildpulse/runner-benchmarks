@@ -1,0 +1,526 @@
+{
+ "provider": "CircleCI",
+ "date": "2026-10-13",
+ "vcpu": 4,
+ "reps": 10,
+ "method": "Job duration as CircleCI reports it (spin-up, toolchain, workload), medians of 10 chained reps per machine. Toolchain installed from identical tarballs on every machine. Generated configs: .circleci/config.yml.",
+ "price_note": "List prices per minute, read October 2026. CircleCI credit = $15 per 25,000. Self-hosted runner jobs use no CircleCI credits for run time.",
+ "machines": {
+  "bp-4x": {
+   "label": "BuildPulse x64-4x via CircleCI self-hosted runner",
+   "cpu": "AMD EPYC 9R45",
+   "price_per_min_usd": 0.008,
+   "workloads": {
+    "docker-build": {
+     "median_s": 129.2,
+     "runs": [
+      {
+       "rep": 1,
+       "job_s": 131.9,
+       "started": "2026-10-13T21:06:31.379Z"
+      },
+      {
+       "rep": 2,
+       "job_s": 128.3,
+       "started": "2026-10-13T21:09:31.802Z"
+      },
+      {
+       "rep": 3,
+       "job_s": 128.2,
+       "started": "2026-10-13T21:12:26.594Z"
+      },
+      {
+       "rep": 4,
+       "job_s": 129.0,
+       "started": "2026-10-13T21:15:23.957Z"
+      },
+      {
+       "rep": 5,
+       "job_s": 130.6,
+       "started": "2026-10-13T21:18:28.905Z"
+      },
+      {
+       "rep": 6,
+       "job_s": 128.0,
+       "started": "2026-10-13T21:21:17.017Z"
+      },
+      {
+       "rep": 7,
+       "job_s": 126.5,
+       "started": "2026-10-13T21:24:07.772Z"
+      },
+      {
+       "rep": 8,
+       "job_s": 129.4,
+       "started": "2026-10-13T21:27:02.03Z"
+      },
+      {
+       "rep": 9,
+       "job_s": 130.7,
+       "started": "2026-10-13T21:30:02.981Z"
+      },
+      {
+       "rep": 10,
+       "job_s": 134.0,
+       "started": "2026-10-13T21:33:02.049Z"
+      }
+     ]
+    },
+    "go-build": {
+     "median_s": 35.5,
+     "runs": [
+      {
+       "rep": 1,
+       "job_s": 35.0,
+       "started": "2026-10-13T21:06:30.088Z"
+      },
+      {
+       "rep": 2,
+       "job_s": 34.2,
+       "started": "2026-10-13T21:09:33.738Z"
+      },
+      {
+       "rep": 3,
+       "job_s": 38.2,
+       "started": "2026-10-13T21:12:16.648Z"
+      },
+      {
+       "rep": 4,
+       "job_s": 37.3,
+       "started": "2026-10-13T21:15:27.109Z"
+      },
+      {
+       "rep": 5,
+       "job_s": 35.5,
+       "started": "2026-10-13T21:18:28.744Z"
+      },
+      {
+       "rep": 6,
+       "job_s": 34.4,
+       "started": "2026-10-13T21:21:10.87Z"
+      },
+      {
+       "rep": 7,
+       "job_s": 35.8,
+       "started": "2026-10-13T21:24:14.343Z"
+      },
+      {
+       "rep": 8,
+       "job_s": 35.4,
+       "started": "2026-10-13T21:27:03.156Z"
+      },
+      {
+       "rep": 9,
+       "job_s": 34.3,
+       "started": "2026-10-13T21:29:54.256Z"
+      },
+      {
+       "rep": 10,
+       "job_s": 36.2,
+       "started": "2026-10-13T21:33:00.768Z"
+      }
+     ]
+    },
+    "node-build": {
+     "median_s": 47.8,
+     "runs": [
+      {
+       "rep": 1,
+       "job_s": 46.9,
+       "started": "2026-10-13T21:06:33.821Z"
+      },
+      {
+       "rep": 2,
+       "job_s": 48.9,
+       "started": "2026-10-13T21:09:35.004Z"
+      },
+      {
+       "rep": 3,
+       "job_s": 46.1,
+       "started": "2026-10-13T21:12:27.69Z"
+      },
+      {
+       "rep": 4,
+       "job_s": 47.6,
+       "started": "2026-10-13T21:15:26.636Z"
+      },
+      {
+       "rep": 5,
+       "job_s": 45.2,
+       "started": "2026-10-13T21:18:29.442Z"
+      },
+      {
+       "rep": 6,
+       "job_s": 48.2,
+       "started": "2026-10-13T21:21:18.47Z"
+      },
+      {
+       "rep": 7,
+       "job_s": 45.3,
+       "started": "2026-10-13T21:24:03.168Z"
+      },
+      {
+       "rep": 8,
+       "job_s": 47.9,
+       "started": "2026-10-13T21:26:53.37Z"
+      },
+      {
+       "rep": 9,
+       "job_s": 50.4,
+       "started": "2026-10-13T21:29:58.23Z"
+      },
+      {
+       "rep": 10,
+       "job_s": 49.0,
+       "started": "2026-10-13T21:32:52.288Z"
+      }
+     ]
+    }
+   }
+  },
+  "cci-4x": {
+   "label": "CircleCI large (Linux VM, 20 credits/min)",
+   "cpu": "Intel Xeon Platinum 8375C",
+   "price_per_min_usd": 0.012,
+   "workloads": {
+    "docker-build": {
+     "median_s": 229.3,
+     "runs": [
+      {
+       "rep": 1,
+       "job_s": 235.4,
+       "started": "2026-10-13T20:31:52.152Z"
+      },
+      {
+       "rep": 2,
+       "job_s": 233.2,
+       "started": "2026-10-13T20:35:52.009Z"
+      },
+      {
+       "rep": 3,
+       "job_s": 232.3,
+       "started": "2026-10-13T20:40:06.437Z"
+      },
+      {
+       "rep": 4,
+       "job_s": 229.0,
+       "started": "2026-10-13T20:44:17.913Z"
+      },
+      {
+       "rep": 5,
+       "job_s": 227.5,
+       "started": "2026-10-13T20:48:12.638Z"
+      },
+      {
+       "rep": 6,
+       "job_s": 219.4,
+       "started": "2026-10-13T20:52:12.498Z"
+      },
+      {
+       "rep": 7,
+       "job_s": 229.1,
+       "started": "2026-10-13T20:55:56.953Z"
+      },
+      {
+       "rep": 8,
+       "job_s": 229.1,
+       "started": "2026-10-13T20:59:49.414Z"
+      },
+      {
+       "rep": 9,
+       "job_s": 261.8,
+       "started": "2026-10-13T21:03:42.207Z"
+      },
+      {
+       "rep": 10,
+       "job_s": 229.5,
+       "started": "2026-10-13T21:08:06.964Z"
+      }
+     ]
+    },
+    "go-build": {
+     "median_s": 60.3,
+     "runs": [
+      {
+       "rep": 1,
+       "job_s": 65.6,
+       "started": "2026-10-13T20:31:51.621Z"
+      },
+      {
+       "rep": 2,
+       "job_s": 63.9,
+       "started": "2026-10-13T20:35:52.611Z"
+      },
+      {
+       "rep": 3,
+       "job_s": 59.3,
+       "started": "2026-10-13T20:40:06.165Z"
+      },
+      {
+       "rep": 4,
+       "job_s": 62.1,
+       "started": "2026-10-13T20:44:17.153Z"
+      },
+      {
+       "rep": 5,
+       "job_s": 60.1,
+       "started": "2026-10-13T20:48:13.024Z"
+      },
+      {
+       "rep": 6,
+       "job_s": 58.9,
+       "started": "2026-10-13T20:52:06.57Z"
+      },
+      {
+       "rep": 7,
+       "job_s": 59.4,
+       "started": "2026-10-13T20:55:57.257Z"
+      },
+      {
+       "rep": 8,
+       "job_s": 62.0,
+       "started": "2026-10-13T20:59:53.239Z"
+      },
+      {
+       "rep": 9,
+       "job_s": 59.0,
+       "started": "2026-10-13T21:03:42.762Z"
+      },
+      {
+       "rep": 10,
+       "job_s": 60.5,
+       "started": "2026-10-13T21:08:07.614Z"
+      }
+     ]
+    },
+    "node-build": {
+     "median_s": 80.9,
+     "runs": [
+      {
+       "rep": 1,
+       "job_s": 82.8,
+       "started": "2026-10-13T20:31:51.869Z"
+      },
+      {
+       "rep": 2,
+       "job_s": 87.1,
+       "started": "2026-10-13T20:35:51.095Z"
+      },
+      {
+       "rep": 3,
+       "job_s": 80.0,
+       "started": "2026-10-13T20:40:05.027Z"
+      },
+      {
+       "rep": 4,
+       "job_s": 78.4,
+       "started": "2026-10-13T20:44:16.764Z"
+      },
+      {
+       "rep": 5,
+       "job_s": 79.9,
+       "started": "2026-10-13T20:48:10.583Z"
+      },
+      {
+       "rep": 6,
+       "job_s": 81.3,
+       "started": "2026-10-13T20:52:11.875Z"
+      },
+      {
+       "rep": 7,
+       "job_s": 81.7,
+       "started": "2026-10-13T20:55:55.718Z"
+      },
+      {
+       "rep": 8,
+       "job_s": 80.5,
+       "started": "2026-10-13T20:59:49.539Z"
+      },
+      {
+       "rep": 9,
+       "job_s": 82.1,
+       "started": "2026-10-13T21:03:41.498Z"
+      },
+      {
+       "rep": 10,
+       "job_s": 75.3,
+       "started": "2026-10-13T21:08:07.634Z"
+      }
+     ]
+    }
+   }
+  },
+  "cci-gen2-4x": {
+   "label": "CircleCI large.gen2 (Linux VM Gen 2, 36 credits/min)",
+   "cpu": "AMD EPYC 9R14",
+   "price_per_min_usd": 0.0216,
+   "workloads": {
+    "docker-build": {
+     "median_s": 175.4,
+     "runs": [
+      {
+       "rep": 1,
+       "job_s": 174.3,
+       "started": "2026-10-13T20:31:52.344Z"
+      },
+      {
+       "rep": 2,
+       "job_s": 183.4,
+       "started": "2026-10-13T20:34:53.104Z"
+      },
+      {
+       "rep": 3,
+       "job_s": 175.8,
+       "started": "2026-10-13T20:37:59.999Z"
+      },
+      {
+       "rep": 4,
+       "job_s": 185.8,
+       "started": "2026-10-13T20:41:08.288Z"
+      },
+      {
+       "rep": 5,
+       "job_s": 174.6,
+       "started": "2026-10-13T20:44:22.709Z"
+      },
+      {
+       "rep": 6,
+       "job_s": 175.9,
+       "started": "2026-10-13T20:47:21.396Z"
+      },
+      {
+       "rep": 7,
+       "job_s": 175.1,
+       "started": "2026-10-13T20:50:23.228Z"
+      },
+      {
+       "rep": 8,
+       "job_s": 176.4,
+       "started": "2026-10-13T20:53:25.418Z"
+      },
+      {
+       "rep": 9,
+       "job_s": 173.6,
+       "started": "2026-10-13T20:56:26.52Z"
+      },
+      {
+       "rep": 10,
+       "job_s": 172.8,
+       "started": "2026-10-13T20:59:27.456Z"
+      }
+     ]
+    },
+    "go-build": {
+     "median_s": 40.0,
+     "runs": [
+      {
+       "rep": 1,
+       "job_s": 39.5,
+       "started": "2026-10-13T20:31:51.816Z"
+      },
+      {
+       "rep": 2,
+       "job_s": 45.4,
+       "started": "2026-10-13T20:34:50.257Z"
+      },
+      {
+       "rep": 3,
+       "job_s": 40.6,
+       "started": "2026-10-13T20:38:04.493Z"
+      },
+      {
+       "rep": 4,
+       "job_s": 39.4,
+       "started": "2026-10-13T20:41:08.369Z"
+      },
+      {
+       "rep": 5,
+       "job_s": 39.1,
+       "started": "2026-10-13T20:44:22.945Z"
+      },
+      {
+       "rep": 6,
+       "job_s": 40.4,
+       "started": "2026-10-13T20:47:20.08Z"
+      },
+      {
+       "rep": 7,
+       "job_s": 39.5,
+       "started": "2026-10-13T20:50:22.325Z"
+      },
+      {
+       "rep": 8,
+       "job_s": 42.0,
+       "started": "2026-10-13T20:53:27.057Z"
+      },
+      {
+       "rep": 9,
+       "job_s": 39.6,
+       "started": "2026-10-13T20:56:26.531Z"
+      },
+      {
+       "rep": 10,
+       "job_s": 41.0,
+       "started": "2026-10-13T20:59:27.535Z"
+      }
+     ]
+    },
+    "node-build": {
+     "median_s": 57.4,
+     "runs": [
+      {
+       "rep": 1,
+       "job_s": 56.4,
+       "started": "2026-10-13T20:31:51.979Z"
+      },
+      {
+       "rep": 2,
+       "job_s": 61.1,
+       "started": "2026-10-13T20:34:51.711Z"
+      },
+      {
+       "rep": 3,
+       "job_s": 58.4,
+       "started": "2026-10-13T20:38:01.881Z"
+      },
+      {
+       "rep": 4,
+       "job_s": 57.8,
+       "started": "2026-10-13T20:41:08.041Z"
+      },
+      {
+       "rep": 5,
+       "job_s": 57.1,
+       "started": "2026-10-13T20:44:23.841Z"
+      },
+      {
+       "rep": 6,
+       "job_s": 63.0,
+       "started": "2026-10-13T20:47:20.065Z"
+      },
+      {
+       "rep": 7,
+       "job_s": 56.1,
+       "started": "2026-10-13T20:50:19.925Z"
+      },
+      {
+       "rep": 8,
+       "job_s": 57.6,
+       "started": "2026-10-13T20:53:23.214Z"
+      },
+      {
+       "rep": 9,
+       "job_s": 56.0,
+       "started": "2026-10-13T20:56:26.49Z"
+      },
+      {
+       "rep": 10,
+       "job_s": 57.2,
+       "started": "2026-10-13T20:59:26.991Z"
+      }
+     ]
+    }
+   }
+  }
+ }
+}
