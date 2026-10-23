@@ -65,4 +65,21 @@ Prices and what they mean per build are in the write-ups:
 [CircleCI](https://buildpulse.io/blog/circleci-vs-buildpulse-runners-benchmark) and
 [Semaphore](https://buildpulse.io/blog/semaphore-vs-buildpulse-runners-benchmark).
 
+## October 2026 suite
+
+Three heavier workloads that look more like real CI. Each runs five times per
+runner, all five at once, on `ubuntu-latest` (GitHub-hosted, 4 vCPU / 16 GB)
+and BuildPulse 4 vCPU / 16 GB:
+
+- `rust.yml`: aome510/spotify-player at a pinned commit. `cargo fmt --check`,
+  `cargo test` and `cargo clippy` with a fixed feature set.
+- `typescript.yml`: the opencode monorepo at a pinned commit. `bun install`
+  into an empty cache, then `bun turbo typecheck --concurrency=4`.
+- `docker-build.yml`: PostHog's production image at a pinned commit, built
+  with buildx and `--no-cache`. BuildPulse side: `bp-docker-builder-x64-4x`.
+
+A job's time is the sum of its steps named `phase: ...`, as GitHub records
+them. Setup that only one image needs (freeing disk, node-gyp) is not timed.
+`scripts/medians.py <run id>` prints the median per runner for any run.
+
 Anyone can fork this and reproduce. If you get different numbers, open an issue.

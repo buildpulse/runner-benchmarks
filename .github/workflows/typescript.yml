@@ -1,0 +1,78 @@
+name: typescript
+# The opencode monorepo at a pinned commit: bun install, then the repo's own
+# turbo typecheck. Bun and its cache live in a fresh directory, so nothing
+# preinstalled on either image helps. Five jobs per runner, run at once.
+# Timed steps are named "phase: ..."; scripts/medians.py sums them per job.
+on:
+  workflow_dispatch:
+    inputs:
+      note:
+        description: batch label
+        required: false
+
+permissions:
+  contents: read
+
+jobs:
+  typescript:
+    name: typescript ${{ matrix.runner }} ${{ matrix.iteration }}
+    strategy:
+      fail-fast: false
+      matrix:
+        runner: [ubuntu-latest, bp-ubuntu-latest-x64-4x]
+        iteration: [1, 2, 3, 4, 5]
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 30
+    env:
+      REPO_URL: https://github.com/anomalyco/opencode.git
+      COMMIT: 08fb47373509ba64b13441061314eeacf4264f51
+      BUN_VERSION: 1.3.14
+      NODE_VERSION: 24.14.1
+      NODE_GYP_VERSION: 12.4.0
+      CI: "true"
+      OPENCODE_DISABLE_SHARE: "true"
+      TURBO_TELEMETRY_DISABLED: "1"
+      # turbo's default runs about 10 type checkers at once, more than 16 GB
+      # holds. 4 fits on both runners.
+      TYPECHECK_CONCURRENCY: "4"
+    steps:
+      - name: Fresh bun directories
+        run: |
+          echo "BUN_INSTALL=$RUNNER_TEMP/bun" >> "$GITHUB_ENV"
+          echo "BUN_INSTALL_CACHE_DIR=$RUNNER_TEMP/bun-cache" >> "$GITHUB_ENV"
+          echo "$RUNNER_TEMP/bun/bin" >> "$GITHUB_PATH"
+          mkdir -p "$RUNNER_TEMP/bun/bin" "$RUNNER_TEMP/bun-cache"
+      - name: "phase: toolchain"
+        run: |
+          curl -fsSL -o "$RUNNER_TEMP/bun.zip" \
+            "https://github.com/oven-sh/bun/releases/download/bun-v${BUN_VERSION}/bun-linux-x64-baseline.zip"
+          unzip -q -j "$RUNNER_TEMP/bun.zip" "bun-linux-x64-baseline/bun" -d "$BUN_INSTALL/bin"
+          chmod +x "$BUN_INSTALL/bin/bun"
+          # Keep the image's Node if it has one; install the pinned one otherwise.
+          if ! command -v node >/dev/null; then
+            curl -fsSL "https://nodejs.org/download/release/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-x64.tar.gz" \
+              | sudo tar -xz --strip-components=1 -C /usr/local
+          fi
+          bun --version; node --version
+      - name: Native build tools
+        # opencode compiles native modules with node-gyp from PATH. Same
+        # pinned version on both runners, not timed.
+        run: |
+          npm install -g --prefix "$RUNNER_TEMP/npm-global" "node-gyp@${NODE_GYP_VERSION}" >/dev/null
+          echo "$RUNNER_TEMP/npm-global/bin" >> "$GITHUB_PATH"
+      - name: "phase: clone"
+        run: |
+          mkdir work && cd work
+          git init -q
+          git remote add origin "$REPO_URL"
+          git fetch -q --depth=1 origin "$COMMIT"
+          git checkout -q --detach FETCH_HEAD
+          test "$(git rev-parse HEAD)" = "$COMMIT"
+      - name: "phase: bun install"
+        working-directory: work
+        run: |
+          bun install
+          git diff --exit-code -- bun.lock package.json
+      - name: "phase: typecheck"
+        working-directory: work
+        run: bun turbo typecheck --concurrency="$TYPECHECK_CONCURRENCY"
