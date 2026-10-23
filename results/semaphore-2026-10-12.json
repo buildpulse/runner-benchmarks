@@ -1,0 +1,294 @@
+{
+ "provider": "Semaphore",
+ "date": "2026-10-12",
+ "vcpu": 4,
+ "reps": 10,
+ "method": "Job duration in whole seconds as Semaphore reports it, medians of 10 chained reps per machine. Toolchain installed from identical tarballs on every machine. Generated config: .semaphore/semaphore.yml.",
+ "machines": {
+  "bp-4x": {
+   "label": "BuildPulse x64-4x via Semaphore self-hosted agent",
+   "price_per_min_usd": 0.0105,
+   "price_note": "$0.008 BuildPulse + $0.0025 Semaphore self-hosted fee",
+   "workloads": {
+    "docker-build": {
+     "median_s": 133.5,
+     "runs": [
+      {
+       "rep": 1,
+       "job_s": 134
+      },
+      {
+       "rep": 2,
+       "job_s": 138
+      },
+      {
+       "rep": 3,
+       "job_s": 136
+      },
+      {
+       "rep": 4,
+       "job_s": 141
+      },
+      {
+       "rep": 5,
+       "job_s": 126
+      },
+      {
+       "rep": 6,
+       "job_s": 132
+      },
+      {
+       "rep": 7,
+       "job_s": 122
+      },
+      {
+       "rep": 8,
+       "job_s": 133
+      },
+      {
+       "rep": 9,
+       "job_s": 129
+      },
+      {
+       "rep": 10,
+       "job_s": 138
+      }
+     ]
+    },
+    "go-build": {
+     "median_s": 35.5,
+     "runs": [
+      {
+       "rep": 1,
+       "job_s": 34
+      },
+      {
+       "rep": 2,
+       "job_s": 35
+      },
+      {
+       "rep": 3,
+       "job_s": 35
+      },
+      {
+       "rep": 4,
+       "job_s": 36
+      },
+      {
+       "rep": 5,
+       "job_s": 36
+      },
+      {
+       "rep": 6,
+       "job_s": 37
+      },
+      {
+       "rep": 7,
+       "job_s": 33
+      },
+      {
+       "rep": 8,
+       "job_s": 32
+      },
+      {
+       "rep": 9,
+       "job_s": 36
+      },
+      {
+       "rep": 10,
+       "job_s": 36
+      }
+     ]
+    },
+    "node-build": {
+     "median_s": 45.5,
+     "runs": [
+      {
+       "rep": 1,
+       "job_s": 45
+      },
+      {
+       "rep": 2,
+       "job_s": 45
+      },
+      {
+       "rep": 3,
+       "job_s": 45
+      },
+      {
+       "rep": 4,
+       "job_s": 47
+      },
+      {
+       "rep": 5,
+       "job_s": 46
+      },
+      {
+       "rep": 6,
+       "job_s": 47
+      },
+      {
+       "rep": 7,
+       "job_s": 45
+      },
+      {
+       "rep": 8,
+       "job_s": 46
+      },
+      {
+       "rep": 9,
+       "job_s": 47
+      },
+      {
+       "rep": 10,
+       "job_s": 43
+      }
+     ]
+    }
+   },
+   "cpu": "AMD EPYC 9R45"
+  },
+  "sem-4x": {
+   "label": "Semaphore f1-standard-4",
+   "price_per_min_usd": 0.015,
+   "price_note": "Semaphore list price",
+   "workloads": {
+    "docker-build": {
+     "median_s": 138.5,
+     "runs": [
+      {
+       "rep": 1,
+       "job_s": 137
+      },
+      {
+       "rep": 2,
+       "job_s": 139
+      },
+      {
+       "rep": 3,
+       "job_s": 139
+      },
+      {
+       "rep": 4,
+       "job_s": 137
+      },
+      {
+       "rep": 5,
+       "job_s": 139
+      },
+      {
+       "rep": 6,
+       "job_s": 146
+      },
+      {
+       "rep": 7,
+       "job_s": 136
+      },
+      {
+       "rep": 8,
+       "job_s": 138
+      },
+      {
+       "rep": 9,
+       "job_s": 143
+      },
+      {
+       "rep": 10,
+       "job_s": 138
+      }
+     ]
+    },
+    "go-build": {
+     "median_s": 34.0,
+     "runs": [
+      {
+       "rep": 1,
+       "job_s": 34
+      },
+      {
+       "rep": 2,
+       "job_s": 34
+      },
+      {
+       "rep": 3,
+       "job_s": 33
+      },
+      {
+       "rep": 4,
+       "job_s": 33
+      },
+      {
+       "rep": 5,
+       "job_s": 34
+      },
+      {
+       "rep": 6,
+       "job_s": 34
+      },
+      {
+       "rep": 7,
+       "job_s": 33
+      },
+      {
+       "rep": 8,
+       "job_s": 37
+      },
+      {
+       "rep": 9,
+       "job_s": 33
+      },
+      {
+       "rep": 10,
+       "job_s": 34
+      }
+     ]
+    },
+    "node-build": {
+     "median_s": 51.5,
+     "runs": [
+      {
+       "rep": 1,
+       "job_s": 50
+      },
+      {
+       "rep": 2,
+       "job_s": 51
+      },
+      {
+       "rep": 3,
+       "job_s": 51
+      },
+      {
+       "rep": 4,
+       "job_s": 55
+      },
+      {
+       "rep": 5,
+       "job_s": 50
+      },
+      {
+       "rep": 6,
+       "job_s": 55
+      },
+      {
+       "rep": 7,
+       "job_s": 50
+      },
+      {
+       "rep": 8,
+       "job_s": 59
+      },
+      {
+       "rep": 9,
+       "job_s": 54
+      },
+      {
+       "rep": 10,
+       "job_s": 52
+      }
+     ]
+    }
+   }
+  }
+ }
+}
